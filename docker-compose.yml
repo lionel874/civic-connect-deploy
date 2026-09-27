@@ -1,0 +1,24 @@
+services:
+  backend:
+    build:
+      context: ../CIVIC-CONNECT
+    container_name: civic-connect-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:////app/data/civic connect.db
+    env_file:
+      - ../CIVIC-CONNECT/.env
+    volumes:
+      - ../CIVIC-CONNECT/data:/app/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ../civic-connect-frontend
+    container_name: civic-connect-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
